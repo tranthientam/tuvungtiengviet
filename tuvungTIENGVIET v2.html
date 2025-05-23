@@ -1,0 +1,286 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {"data.xlsx":"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"};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Học Từ Vựng Tiếng Việt Của Thiện Chí</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f0f9ff;
+    }
+    .large-text {
+      font-size: 2rem;
+      line-height: 1.5;
+    }
+    .btn {
+      padding: 1rem 2rem;
+      font-size: 1.5rem;
+      border-radius: 0.5rem;
+      transition: all 0.3s ease;
+    }
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4">
+  <div id="app" class="w-full max-w-2xl bg-white rounded-xl shadow-lg p-8">
+    <!-- Displaying the game title -->
+    <h1 class="text-4xl font-bold text-center text-blue-600 mb-8">
+      Game Học Từ Vựng Tiếng Việt Của Thiện Chí
+    </h1>
+
+    <!-- Home screen for selecting directory -->
+    <div v-if="!selectedDirectory" class="text-center">
+      <h2 class="text-2xl font-semibold mb-4 large-text">Chọn thư mục để học</h2>
+      <div class="grid grid-cols-1 gap-4">
+        <button v-for="dir in directories" :key="dir"
+          @click="selectDirectory(dir)"
+          class="btn bg-blue-500 text-white hover:bg-blue-600 large-text">
+          {{ dir }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Game screen -->
+    <div v-else class="space-y-6">
+      <!-- Score display -->
+      <div class="text-center text-xl font-semibold text-gray-700 large-text">
+        Đúng: {{ correctAnswers }} / {{ totalQuestions }}
+      </div>
+
+      <!-- Completion message -->
+      <div v-if="gameCompleted" class="text-center">
+        <h2 class="text-3xl font-bold text-green-600 large-text">BẠN ĐÃ PHÁ ĐẢO</h2>
+        <button @click="resetGame"
+          class="btn bg-blue-500 text-white hover:bg-blue-600 mt-4 large-text">
+          Trang Chủ
+        </button>
+      </div>
+
+      <!-- Game content -->
+      <div v-else>
+        <div class="text-center mb-4">
+          <button @click="playAudio"
+            class="btn bg-green-500 text-white hover:bg-green-600 large-text">
+            Nghe từ vựng
+          </button>
+        </div>
+        <input v-model="userInput"
+          @keyup.enter="checkAnswer"
+          class="w-full p-3 text-xl border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 large-text"
+          placeholder="Nhập từ vựng bạn nghe được"
+          :disabled="gameCompleted">
+        <div class="text-center mt-4">
+          <button @click="checkAnswer"
+            class="btn bg-blue-500 text-white hover:bg-blue-600 large-text">
+            Kiểm tra
+          </button>
+        </div>
+        <div v-if="feedback" class="mt-4 text-center text-2xl large-text"
+             :class="{'text-red-500': !isCorrect, 'text-green-500': isCorrect}">
+          {{ feedback }}
+        </div>
+        <div v-if="explanation && isCorrect" class="mt-4 p-4 bg-gray-100 rounded-lg large-text">
+          {{ explanation }}
+        </div>
+        <div class="flex justify-between mt-6">
+          <button @click="resetGame"
+            class="btn bg-gray-500 text-white hover:bg-gray-600 large-text">
+            Trang Chủ
+          </button>
+          <button @click="nextWord"
+            :disabled="!isCorrect"
+            class="btn bg-blue-500 text-white hover:bg-blue-600 large-text"
+            :class="{ 'opacity-50 cursor-not-allowed': !isCorrect }">
+            NEXT
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@3.2.47/dist/vue.global.prod.js"></script>
+  <script>
+    // Defining the vocabulary data from the provided Excel
+    const vocabularyData = [
+      {
+        directory: "20250522",
+        word: "bàng",
+        explanation: "danh từ\ncây cao, cành nằm ngang, lá to, quả dẹt, trồng để lấy bóng mát, lá để nhuộm vải\nthan quả bàng\ncói\nbao bàng"
+      },
+      {
+        directory: "20250522",
+        word: "bàn",
+        explanation: "danh từ\nđồ dùng bằng gỗ, mặt phẳng, chân đứng\nbàn học; bàn ăn; bàn làm việc\nlần tính thắng hay thua trong trận đấu\nthắng liên tiếp hai bàn; gỡ hoà bàn thua trông thấy\nđánh cờ\nHết bàn này là nghỉ nhé!\ntừ chỉ những vật có mặt phẳng\nbàn là; bàn bi-a\nđộng từ\ntrao đổi ý kiến\nbàn với nhau về kế hoạch mới; bàn tới bàn lui vẫn chưa xong"
+      },
+      {
+        directory: "20250522",
+        word: "lòng",
+        explanation: "những bộ phận trong bụng con vật giết thịt\nđĩa lòng gà xào\nbiểu tượng của tình cảm, ý nghĩa, tinh thần,...\nđau lòng; một lòng một dạ\nphần giữa\nlòng thuyền; lòng sông"
+      },
+      {
+        directory: "20250523",
+        word: "lồng",
+        explanation: "danh từ\nđồ đan bằng tre, nứa.... để nhốt gia cầm hoặc chim cảnh\nchim vào lồng biết thuở nào ra (ca dao)\nđộng từ\nchồm dậy trên hai chân sau với một sức hăng đột ngột, do quá hoảng sợ\nngựa chạy lồng\nphản ứng quá mạnh vì tức giận\nbà ta lồng lên vì mất của\ncho một vật vào bên trong vật khác\nlồng ảnh vào khung\ndùng tiếng nước mình đè lên tiếng ngoài (trong phim)\nphim Mỹ lồng tiếng Việt"
+      },
+      {
+        directory: "20250523",
+        word: "đàn",
+        explanation: "danh từ\ntên chung của các nhạc cụ có dây hoặc bàn phím\nchơi đàn\ntập hợp những động vật cùng loài sống một nơi\nđàn voi; đàn gà\ntrẻ cùng một gia đình hoặc sinh hoạt chung với nhau\nđàn trẻ đang tắm mưa\nnền đất đắp cao để tế lễ\nlập đàn cầu siêu\nlàm bằng đất nung thô, có tráng men\nđĩa đàn\nphần cho độc giả phát biểu ý kiến\nđàn ngôn luận\nnơi đứng nói trước đám đông\nbước lên đàn diễn thuyết\ntính từ\ntụ họp đông đúc\nvịt đàn\nđộng từ\ngảy đàn cho phát ra tiếng nhạc\nanh đánh đàn cho em hát\nsan cho đều\nđàn thóc ra phơi\nkéo dài hoặc dàn mỏng ra"
+      }
+    ];
+
+    // Initializing Vue app
+    const { createApp, ref } = Vue;
+
+    createApp({
+      setup() {
+        const directories = ref([...new Set(vocabularyData.map(item => item.directory))]);
+        const selectedDirectory = ref(null);
+        const currentWord = ref(null);
+        const userInput = ref('');
+        const feedback = ref('');
+        const isCorrect = ref(false);
+        const explanation = ref('');
+        const usedWords = ref([]);
+        const correctAnswers = ref(0);
+        const totalQuestions = ref(0);
+        const gameCompleted = ref(false);
+
+        // Selecting a directory and initializing the game
+        const selectDirectory = (dir) => {
+          selectedDirectory.value = dir;
+          usedWords.value = [];
+          correctAnswers.value = 0;
+          totalQuestions.value = 0;
+          gameCompleted.value = false;
+          nextWord();
+        };
+
+        // Playing audio for the current word
+        const playAudio = () => {
+          if (currentWord.value) {
+            const utterance = new SpeechSynthesisUtterance(currentWord.value.word);
+            utterance.lang = 'vi-VN';
+            speechSynthesis.speak(utterance);
+          }
+        };
+
+        // Checking the user's answer
+        const checkAnswer = () => {
+          if (!currentWord.value) return;
+          totalQuestions.value++;
+          if (userInput.value.trim().toLowerCase() === currentWord.value.word.toLowerCase()) {
+            feedback.value = 'Đúng rồi!';
+            isCorrect.value = true;
+            explanation.value = currentWord.value.explanation;
+            correctAnswers.value++;
+          } else {
+            feedback.value = 'QUÊ LÀ QUÊ CHÚNG MÌNH QUÊ NHIỀU';
+            isCorrect.value = false;
+            explanation.value = '';
+          }
+        };
+
+        // Moving to the next word
+        const nextWord = () => {
+          const availableWords = vocabularyData
+            .filter(item => item.directory === selectedDirectory.value)
+            .filter(item => !usedWords.value.includes(item.word));
+          
+          if (availableWords.length === 0) {
+            gameCompleted.value = true;
+            feedback.value = '';
+            explanation.value = '';
+            userInput.value = '';
+            currentWord.value = null;
+            return;
+          }
+
+          currentWord.value = availableWords[Math.floor(Math.random() * availableWords.length)];
+          usedWords.value.push(currentWord.value.word);
+          userInput.value = '';
+          feedback.value = '';
+          explanation.value = '';
+          isCorrect.value = false;
+          playAudio();
+        };
+
+        // Resetting to home screen
+        const resetGame = () => {
+          selectedDirectory.value = null;
+          currentWord.value = null;
+          userInput.value = '';
+          feedback.value = '';
+          explanation.value = '';
+          usedWords.value = [];
+          correctAnswers.value = 0;
+          totalQuestions.value = 0;
+          gameCompleted.value = false;
+        };
+
+        return {
+          directories,
+          selectedDirectory,
+          currentWord,
+          userInput,
+          feedback,
+          isCorrect,
+          explanation,
+          correctAnswers,
+          totalQuestions,
+          gameCompleted,
+          selectDirectory,
+          playAudio,
+          checkAnswer,
+          nextWord,
+          resetGame
+        };
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>
