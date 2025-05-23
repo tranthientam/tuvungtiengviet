@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Học Từ Vựng Tiếng Việt Của Thiện Chí</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f0f9ff;
+    }
+    .large-text {
+      font-size: 2rem;
+      line-height: 1.5;
+    }
+    .btn {
+      padding: 1rem 2rem;
+      font-size: 1.5rem;
+      border-radius: 0.5rem;
+      transition: all 0.3s ease;
+    }
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4">
+  <div id="app" class="w-full max-w-2xl bg-white rounded-xl shadow-lg p-8">
+    <!-- Displaying the game title -->
+    <h1 class="text-4xl font-bold text-center text-blue-600 mb-8">
+      Game Học Từ Vựng Tiếng Việt Của Thiện Chí
+    </h1>
+
+    <!-- Home screen for selecting directory -->
+    <div v-if="!selectedDirectory" class="text-center">
+      <h2 class="text-2xl font-semibold mb-4 large-text">Chọn thư mục để học</h2>
+      <div class="grid grid-cols-1 gap-4">
+        <button v-for="dir in directories" :key="dir"
+          @click="selectDirectory(dir)"
+          class="btn bg-blue-500 text-white hover:bg-blue-600 large-text">
+          {{ dir }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Game screen -->
+    <div v-else class="space-y-6">
+      <!-- Score display -->
+      <div class="text-center text-xl font-semibold text-gray-700 large-text">
+        Đúng: {{ correctAnswers }} / {{ totalQuestions }}
+      </div>
+
+      <!-- Completion message -->
+      <div v-if="gameCompleted" class="text-center">
+        <h2 class="text-3xl font-bold text-green-600 large-text">BẠN ĐÃ PHÁ ĐẢO</h2>
+        <button @click="resetGame"
+          class="btn bg-blue-500 text-white hover:bg-blue-600 mt-4 large-text">
+          Trang Chủ
+        </button>
+      </div>
+
+      <!-- Game content -->
+      <div v-else>
+        <div class="text-center mb-4">
+          <button @click="playAudio"
+            class="btn bg-green-500 text-white hover:bg-green-600 large-text">
+            Nghe từ vựng
+          </button>
+        </div>
+        <input v-model="userInput"
+          @keyup.enter="checkAnswer"
+          class="w-full p-3 text-xl border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 large-text"
+          placeholder="Nhập từ vựng bạn nghe được"
+          :disabled="gameCompleted">
+        <div class="text-center mt-4">
+          <button @click="checkAnswer"
+            class="btn bg-blue-500 text-white hover:bg-blue-600 large-text">
+            Kiểm tra
+          </button>
+        </div>
+        <div v-if="feedback" class="mt-4 text-center text-2xl large-text"
+             :class="{'text-red-500': !isCorrect, 'text-green-500': isCorrect}">
+          {{ feedback }}
+        </div>
+        <div v-if="explanation && isCorrect" class="mt-4 p-4 bg-gray-100 rounded-lg large-text">
+          {{ explanation }}
+        </div>
+        <div class="flex justify-between mt-6">
+          <button @click="resetGame"
+            class="btn bg-gray-500 text-white hover:bg-gray-600 large-text">
+            Trang Chủ
+          </button>
+          <button @click="nextWord"
+            :disabled="!isCorrect"
+            class="btn bg-blue-500 text-white hover:bg-blue-600 large-text"
+            :class="{ 'opacity-50 cursor-not-allowed': !isCorrect }">
+            NEXT
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@3.2.47/dist/vue.global.prod.js"></script>
+  <script>
+    // Defining the vocabulary data
+    const vocabularyData = [
+      {
+        directory: "20250522",
+        word: "bàng",
+        explanation: "danh từ\ncây cao, cành nằm ngang, lá to, quả dẹt, trồng để lấy bóng mát, lá để nhuộm vải\nthan quả bàng\ncói\nbao bàng"
+      },
+      {
+        directory: "20250522",
+        word: "bàn",
+        explanation: "danh từ\nđồ dùng bằng gỗ, mặt phẳng, chân đứng\nbàn học; bàn ăn; bàn làm việc\nlần tính thắng hay thua trong trận đấu\nthắng liên tiếp hai bàn; gỡ hoà bàn thua trông thấy\nđánh cờ\nHết bàn này là nghỉ nhé!\ntừ chỉ những vật có mặt phẳng\nbàn là; bàn bi-a\nđộng từ\ntrao đổi ý kiến\nbàn với nhau về kế hoạch mới; bàn tới bàn lui vẫn chưa xong"
+      },
+      {
+        directory: "20250522",
+        word: "lòng",
+        explanation: "những bộ phận trong bụng con vật giết thịt\nđĩa lòng gà xào\nbiểu tượng của tình cảm, ý nghĩa, tinh thần,...\nđau lòng; một lòng một dạ\nphần giữa\nlòng thuyền; lòng sông"
+      },
+      {
+        directory: "20250523",
+        word: "lồng",
+        explanation: "danh từ\nđồ đan bằng tre, nứa.... để nhốt gia cầm hoặc chim cảnh\nchim vào lồng biết thuở nào ra (ca dao)\nđộng từ\nchồm dậy trên hai chân sau với một sức hăng đột ngột, do quá hoảng sợ\nngựa chạy lồng\nphản ứng quá mạnh vì tức giận\nbà ta lồng lên vì mất của\ncho một vật vào bên trong vật khác\nlồng ảnh vào khung\ndùng tiếng nước mình đè lên tiếng ngoài (trong phim)\nphim Mỹ lồng tiếng Việt"
+      },
+      {
+        directory: "20250523",
+        word: "đàn",
+        explanation: "danh từ\ntên chung của các nhạc cụ có dây hoặc bàn phím\nchơi đàn\ntập hợp những động vật cùng loài sống một nơi\nđàn voi; đàn gà\ntrẻ cùng một gia đình hoặc sinh hoạt chung với nhau\nđàn trẻ đang tắm mưa\nnền đất đắp cao để tế lễ\nlập đàn cầu siêu\nlàm bằng đất nung thô, có tráng men\nđĩa đàn\nphần cho độc giả phát biểu ý kiến\nđàn ngôn luận\nnơi đứng nói trước đám đông\nbước lên đàn diễn thuyết\ntính từ\ntụ họp đông đúc\nvịt đàn\nđộng từ\ngảy đàn cho phát ra tiếng nhạc\nanh đánh đàn cho em hát\nsan cho đều\nđàn thóc ra phơi\nkéo dài hoặc dàn mỏng ra"
+      }
+    ];
+
+    // Initializing Vue app
+    const { createApp, ref } = Vue;
+
+    createApp({
+      setup() {
+        const directories = ref([...new Set(vocabularyData.map(item => item.directory))]);
+        const selectedDirectory = ref(null);
+        const currentWord = ref(null);
+        const userInput = ref('');
+        const feedback = ref('');
+        const isCorrect = ref(false);
+        const explanation = ref('');
+        const usedWords = ref([]);
+        const correctAnswers = ref(0);
+        const totalQuestions = ref(0);
+        const gameCompleted = ref(false);
+
+        // Selecting a directory and initializing the game
+        const selectDirectory = (dir) => {
+          selectedDirectory.value = dir;
+          usedWords.value = [];
+          correctAnswers.value = 0;
+          totalQuestions.value = 0;
+          gameCompleted.value = false;
+          nextWord();
+        };
+
+        // Playing audio for the current word
+        const playAudio = () => {
+          if (currentWord.value) {
+            const utterance = new SpeechSynthesisUtterance(currentWord.value.word);
+            utterance.lang = 'vi-VN';
+            speechSynthesis.speak(utterance);
+          }
+        };
+
+        // Checking the user's answer
+        const checkAnswer = () => {
+          if (!currentWord.value) return;
+          totalQuestions.value++;
+          if (userInput.value.trim().toLowerCase() === currentWord.value.word.toLowerCase()) {
+            feedback.value = 'Đúng rồi!';
+            isCorrect.value = true;
+            explanation.value = currentWord.value.explanation;
+            correctAnswers.value++;
+          } else {
+            feedback.value = 'QUÊ LÀ QUÊ CHÚNG MÌNH QUÊ NHIỀU';
+            isCorrect.value = false;
+            explanation.value = '';
+          }
+        };
+
+        // Moving to the next word
+        const nextWord = () => {
+          const availableWords = vocabularyData
+            .filter(item => item.directory === selectedDirectory.value)
+            .filter(item => !usedWords.value.includes(item.word));
+          
+          if (availableWords.length === 0) {
+            gameCompleted.value = true;
+            feedback.value = '';
+            explanation.value = '';
+            userInput.value = '';
+            currentWord.value = null;
+            return;
+          }
+
+          currentWord.value = availableWords[Math.floor(Math.random() * availableWords.length)];
+          usedWords.value.push(currentWord.value.word);
+          userInput.value = '';
+          feedback.value = '';
+          explanation.value = '';
+          isCorrect.value = false;
+          playAudio();
+        };
+
+        // Resetting to home screen
+        const resetGame = () => {
+          selectedDirectory.value = null;
+          currentWord.value = null;
+          userInput.value = '';
+          feedback.value = '';
+          explanation.value = '';
+          usedWords.value = [];
+          correctAnswers.value = 0;
+          totalQuestions.value = 0;
+          gameCompleted.value = false;
+        };
+
+        return {
+          directories,
+          selectedDirectory,
+          currentWord,
+          userInput,
+          feedback,
+          isCorrect,
+          explanation,
+          correctAnswers,
+          totalQuestions,
+          gameCompleted,
+          selectDirectory,
+          playAudio,
+          checkAnswer,
+          nextWord,
+          resetGame
+        };
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>
